@@ -18,18 +18,16 @@ public with sharing class FormContactController_ctr {
     }
 
     @AuraEnabled
-    public static Boolean saveContact(Contact con){
+    public static void saveContact(Contact con){
 
         System.debug('Entro!!!: '+ con);
 
         try {
             upsert con;
-            return true;
-        } catch (DmlException e) {
+        } catch (Exception e) {
             System.debug(e.getMessage());
+            throw new AuraHandledException('An error has ocurred');
         }
-
-        return false;
     }
 
     @AuraEnabled 
