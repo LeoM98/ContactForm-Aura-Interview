@@ -34,9 +34,9 @@ public with sharing class FormContactController_ctr {
     public static List<SelectOptionObj> getPicklistOptions() {
         List<SelectOptionObj> picklistOptions = new List<SelectOptionObj>();
         try {
-            Schema.SObjectType obj_describe = Schema.getGlobalDescribe().get('Contact');
-            Schema.DescribeSObjectResult obj_describe_result = obj_describe.getDescribe();
-            Map<String,Schema.SObjectField> fields = obj_describe_result.fields.getMap();
+            Schema.SObjectType objDescribe = Schema.getGlobalDescribe().get('Contact');
+            Schema.DescribeSObjectResult objDescribeResult = objDescribe.getDescribe();
+            Map<String,Schema.SObjectField> fields = objDescribeResult.fields.getMap();
             Schema.DescribeFieldResult fieldResult = fields.get('Genero__c').getDescribe();
             List<Schema.PicklistEntry> ple = fieldResult.getPicklistValues();
             SelectOptionObj option = null;
