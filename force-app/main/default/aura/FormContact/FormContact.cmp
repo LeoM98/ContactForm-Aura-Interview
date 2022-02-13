@@ -1,68 +1,138 @@
-<aura:component controller="FormContactController_ctr" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" >
-    
+<aura:component controller="FormContactController_ctr"
+    implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId"
+    access="global">
+
     <!--Search identification-->
-    <aura:attribute name="documentId" type="Integer"/>
+    <aura:attribute name="documentId" type="Integer" />
     <aura:attribute name="Contacto" type="Contact" default="{'sObjectType':'Contact', 'LastName':'', 'Numero_de_documento__c':'',
                                                             'Altura__c':'', 'Color_de_cabello__c':'', 'Color_de_ojos__c':'',
-                                                            'Genero__c':''}"/>
-    <aura:attribute name="pickList" type="List"/>
-    <aura:attribute name="Id" type="String"/>
+                                                            'Genero__c':''}" />
+    <aura:attribute name="pickList" type="List" />
+    <aura:attribute name="Id" type="String" />
 
     <aura:attribute name="EditDoc" type="Boolean" default="false" />
-    <aura:attribute name="EditLastName" type="Boolean" default="false"/>
+    <aura:attribute name="EditLastName" type="Boolean" default="false" />
     <aura:attribute name="EditAltura" type="Boolean" default="false" />
-    <aura:attribute name="EditCcabello" type="Boolean" default="false"/>
-    <aura:attribute name="EditCojos" type="Boolean" default="false"/>
-    <aura:attribute name="EditGenero" type="Boolean" default="false"/>
+    <aura:attribute name="EditCcabello" type="Boolean" default="false" />
+    <aura:attribute name="EditCojos" type="Boolean" default="false" />
+    <aura:attribute name="EditGenero" type="Boolean" default="false" />
 
-    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
-    
-    <lightning:card footer="Interview Solve" title="Contact Form">
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
 
-        <lightning:input name="searchById" label="Buscar Contacto" type="Integer" value = "{!v.documentId}" placeholder="Escriba un Id" />
-        <div style="text-align: center; margin-top: 1%;">
-            <lightning:button variant="brand" label="Buscar" title="searchContact" onclick="{! c.handleSearch }" />
-        </div>
-
-        <br/>
+    <lightning:card footer="Interview Solve" title="Search Contacts">
 
         <div class="slds-grid slds-wrap">
-            <div class="slds-col slds-size_1-of-2">
-                <lightning:input aura:id="name" name="name" label="Nombre" value = "{!v.Contacto.LastName}" readonly = "{!v.EditLastName}" type="String"  />
+            <div class="slds-col slds-size_4-of-12">
+                <lightning:input name="searchById" label="Buscar Contacto" type="Integer" value="{!v.documentId}"
+                    placeholder="Escriba un Id" />
             </div>
-            <div class="slds-col slds-size_1-of-2">
-                <lightning:input aura:id="document" name="docId" label="Número de documento" value = "{!v.Contacto.Numero_de_documento__c}" readonly = "{!v.EditDoc}" type="Integer"  />
-            </div>
-            <div class="slds-col slds-size_1-of-2">
-              <lightning:input aura:id="altura" name="altura" label="Altura" value = "{!v.Contacto.Altura__c}" readonly="{!v.EditAltura}" type="Integer"  />
-            </div>
-            <div class="slds-col slds-size_1-of-2">
-                <lightning:input aura:id="ccabello" name="ccabello" label="Color de cabello" type="String"  value = "{!v.Contacto.Color_de_cabello__c}" readonly="{!v.EditCcabello}"  />
-            </div>
-            <div class="slds-col slds-size_1-of-2">
-                <lightning:input aura:id="cojos" name="cojos" label="Color de ojos" type="String"  value = "{!v.Contacto.Color_de_ojos__c}" readonly="{!v.EditCojos}"  />
-            </div>
-            <div class="slds-col slds-size_1-of-2">
-
-                <aura:if isTrue="{!v.EditGenero}">
-                    <lightning:input aura:id="select" name="genero" label="Género?" type="String"  value = "{!v.Contacto.Genero__c}" readonly="{!v.EditGenero}"  />
-                    <aura:set attribute="else">
-                        <lightning:select aura:id="select" name="select" label="Género?" value = "{!v.Contacto.Genero__c}">
-                            <aura:iteration items="{!v.pickList}" var="i">
-                                <option value="{!i.value}">{!i.label}</option>
-                            </aura:iteration>
-                        </lightning:select>
-                    </aura:set>
-                </aura:if> 
-                
+            <div class="slds-col slds-size_4-of-12">
+                <div style="margin-top: 4.8%; padding-left: 2%;">
+                    <lightning:button variant="brand" label="Buscar" title="searchContact"
+                        onclick="{! c.handleSearch }" />
+                </div>
             </div>
         </div>
+
+        <br />
+        <br />
+
+        <div class="slds-form" role="list">
+            <div class="slds-form__row">
+
+                <div class="slds-form__item" role="listitem">
+                    <div class="slds-form-element slds-form-element_horizontal slds-is-editing">
+                        <label class="slds-form-element__label" for="horizontal-form-element-id-01">
+                            <abbr class="slds-required" title="required">* </abbr>Nombre
+                        </label>
+                        <div class="slds-form-element__control">
+                            <lightning:input aura:id="name" name="name" value="{!v.Contacto.LastName}"
+                                readonly="{!v.EditLastName}" type="String" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slds-form__item" role="listitem">
+                    <div class="slds-form-element slds-form-element_horizontal slds-is-editing">
+                        <label class="slds-form-element__label" for="horizontal-form-element-id-01">
+                            <abbr class="slds-required" title="required">* </abbr>Número de documento
+                        </label>
+                        <div class="slds-form-element__control">
+                            <lightning:input aura:id="document" name="docId"
+                                value="{!v.Contacto.Numero_de_documento__c}" readonly="{!v.EditDoc}" type="Integer" />
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="slds-form__row">
+
+                <div class="slds-form__item" role="listitem">
+                    <div class="slds-form-element slds-form-element_horizontal slds-is-editing">
+                        <label class="slds-form-element__label" for="horizontal-form-element-id-01">Altura</label>
+                        <div class="slds-form-element__control">
+                            <lightning:input aura:id="altura" name="altura" value="{!v.Contacto.Altura__c}"
+                                readonly="{!v.EditAltura}" type="Integer" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slds-form__item" role="listitem">
+                    <div class="slds-form-element slds-form-element_horizontal slds-is-editing">
+                        <label class="slds-form-element__label" for="horizontal-form-element-id-01">Color de
+                            cabello</label>
+                        <div class="slds-form-element__control">
+                            <lightning:input aura:id="ccabello" name="ccabello" type="String"
+                                value="{!v.Contacto.Color_de_cabello__c}" readonly="{!v.EditCcabello}" />
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="slds-form__row">
+
+                <div class="slds-form__item" role="listitem">
+                    <div class="slds-form-element slds-form-element_horizontal slds-is-editing">
+                        <label class="slds-form-element__label" for="horizontal-form-element-id-01">Color de
+                            ojos</label>
+                        <div class="slds-form-element__control">
+                            <lightning:input aura:id="cojos" name="cojos" type="String"
+                                value="{!v.Contacto.Color_de_ojos__c}" readonly="{!v.EditCojos}" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slds-form__item" role="listitem">
+                    <div class="slds-form-element slds-form-element_horizontal slds-is-editing">
+                        <label class="slds-form-element__label" for="horizontal-form-element-id-01">Género?</label>
+                        <div class="slds-form-element__control">
+                            <aura:if isTrue="{!v.EditGenero}">
+                                <lightning:input aura:id="select" name="genero" type="String"
+                                    value="{!v.Contacto.Genero__c}" readonly="{!v.EditGenero}" />
+                                <aura:set attribute="else">
+                                    <lightning:select aura:id="select" name="select" value="{!v.Contacto.Genero__c}">
+                                        <aura:iteration items="{!v.pickList}" var="i">
+                                            <option value="{!i.value}">{!i.label}</option>
+                                        </aura:iteration>
+                                    </lightning:select>
+                                </aura:set>
+                            </aura:if>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
 
         <div style="text-align: center; margin-top: 1%;">
             <lightning:button variant="brand" label="Save" title="saveContacts" onclick="{! c.handleSave }" />
         </div>
-        
+
 
     </lightning:card>
-    
+
 </aura:component>
